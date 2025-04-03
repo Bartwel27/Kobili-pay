@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merchant Onboarding</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #123669;
+      color: #0f0f0f;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .onboarding-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #8aa4b5;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* Onboarding Steps */
+    .onboarding-steps {
+      margin-bottom: 2rem;
+    }
+
+    .onboarding-steps h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .onboarding-steps ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .onboarding-steps ol li {
+      margin-bottom: 0.5rem;
+      color: #181717;
+    }
+
+    /* Onboarding Form */
+    .onboarding-form {
+      margin-top: 2rem;
+    }
+
+    .onboarding-form h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .onboarding-form label {
+      display: block;
+      font-size: 0.9rem;
+      color: #080808;
+      margin-bottom: 0.5rem;
+    }
+
+    .onboarding-form input,
+    .onboarding-form select,
+    .onboarding-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .onboarding-form input:focus,
+    .onboarding-form select:focus,
+    .onboarding-form textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .onboarding-form button {
+      padding: 0.75rem 1.5rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .onboarding-form button:hover {
+      background-color: #218838;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .onboarding-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="onboarding-container">
+    <h1>Merchant Onboarding</h1>
+
+    <!-- Onboarding Steps -->
+    <div class="onboarding-steps">
+      <h2>Get Started in 3 Easy Steps</h2>
+      <ol>
+        <li><strong>Create an Account:</strong> Fill out the form below to register your business.</li>
+        <li><strong>Verify Your Identity:</strong> Upload required documents for verification.</li>
+        <li><strong>Integrate and Go Live:</strong> Use our API or plugins to start accepting payments.</li>
+      </ol>
+    </div>
+
+    <!-- Onboarding Form -->
+    <div class="onboarding-form">
+      <h2>Create Your Account</h2>
+      <form id="onboarding-form">
+        <label for="business-name">Business Name</label>
+        <input type="text" id="business-name" placeholder="Enter your business name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number" required>
+
+        <label for="country">Country</label>
+        <select id="country" required>
+          <option value="">Select your country</option>
+          <option value="UG">Uganda</option>
+          <option value="DRC">DR Congo</option>
+          <option value="SA">South Africa</option>
+          <option value="ZIM">Zimbabwe</option>
+          <option value="ZM">Zambia</option>
+        </select>
+
+        <label for="business-type">Business Type</label>
+        <select id="business-type" required>
+          <option value="">Select your business type</option>
+          <option value="individual">Individual/Sole Proprietor</option>
+          <option value="llc">LLC</option>
+          <option value="corporation">Corporation</option>
+          <option value="nonprofit">Nonprofit</option>
+        </select>
+
+        <label for="description">Business Description</label>
+        <textarea id="description" rows="5" placeholder="Describe your business"></textarea>
+
+        <button type="submit">Submit Application</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Function to handle form submission
+    document.getElementById('onboarding-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for your application! We will review it and get back to you soon.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #024d9e;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .profile-container {
+      background: #4aaaea;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .profile-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-section h2 {
+      font-size: 1.2rem;
+      color: #0d0c0c;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+
+    .profile-section label {
+      display: block;
+      font-size: 0.9rem;
+      color: #0b0b0b;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-section input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .profile-section input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .profile-section button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-section button:hover {
+      background-color: #0056b3;
+    }
+
+    .profile-section button.secondary {
+      background-color: #f8f9fa;
+      color: #333;
+      border: 1px solid #ddd;
+      margin-left: 0.5rem;
+    }
+
+    .profile-section button.secondary:hover {
+      background-color: #e9ecef;
+    }
+
+    .two-factor-auth {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .two-factor-auth label {
+      margin: 0;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #28a745;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    @media (max-width: 480px) {
+      .profile-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .profile-section button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-section button.secondary {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h1>User Profile</h1>
+
+    <!-- Personal Information Section -->
+    <div class="profile-section">
+      <h2>Personal Information</h2>
+      <label for="full-name">Full Name</label>
+      <input type="text" id="full-name" value="Exavier Mwaba" readonly>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" value="exavier@gmail.com" readonly>
+      <button onclick="editPersonalInfo()">Edit</button>
+      <button class="secondary" onclick="savePersonalInfo()">Save</button>
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="profile-section">
+      <h2>Change Password</h2>
+      <label for="current-password">Current Password</label>
+      <input type="password" id="current-password">
+      <label for="new-password">New Password</label>
+      <input type="password" id="new-password">
+      <label for="confirm-password">Confirm New Password</label>
+      <input type="password" id="confirm-password">
+      <button onclick="changePassword()">Change Password</button>
+    </div>
+
+    <!-- Two-Factor Authentication Section -->
+    <div class="profile-section">
+      <h2>Security</h2>
+      <div class="two-factor-auth">
+        <label for="two-factor">Enable Two-Factor Authentication</label>
+        <div class="switch">
+          <input type="checkbox" id="two-factor">
+          <span class="slider"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to enable editing personal information
+    function editPersonalInfo() {
+      const fullNameInput = document.getElementById('full-name');
+      const emailInput = document.getElementById('email');
+      fullNameInput.removeAttribute('readonly');
+      emailInput.removeAttribute('readonly');
+      fullNameInput.focus();
+    }
+
+    // Function to save personal information
+    function savePersonalInfo() {
+      const fullNameInput = document.getElementById('full-name');
+      const emailInput = document.getElementById('email');
+      fullNameInput.setAttribute('readonly', true);
+      emailInput.setAttribute('readonly', true);
+      alert('Personal information saved!');
+    }
+
+    // Function to change password
+    function changePassword() {
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (newPassword !== confirmPassword) {
+        alert('New passwords do not match!');
+        return;
+      }
+
+      // Simulate password change (replace with actual API call)
+      alert('Password changed successfully!');
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+    }
+
+    // Function to toggle two-factor authentication
+    document.getElementById('two-factor').addEventListener('change', function () {
+      if (this.checked) {
+        alert('Two-Factor Authentication enabled!');
+      } else {
+        alert('Two-Factor Authentication disabled!');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog & News</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1b3a66;
+      color: #333;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .blog-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #4e7aa4;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filters select,
+    .filters input {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .filters button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .filters button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Blog Posts */
+    .blog-posts {
+      margin-bottom: 2rem;
+    }
+
+    .blog-post {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .blog-post:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-post h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .blog-post p {
+      margin-bottom: 1rem;
+      color: #101010;
+    }
+
+    .blog-post .meta {
+      font-size: 0.9rem;
+      color: #0f0f0f;
+    }
+
+    .blog-post .meta span {
+      margin-right: 1rem;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .pagination button:hover {
+      background-color: #0056b3;
+    }
+
+    .pagination button.active {
+      background-color: #0056b3;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+      }
+
+      .filters select,
+      .filters input,
+      .filters button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="blog-container">
+    <h1>Blog & News</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select id="category-filter">
+        <option value="all">All Categories</option>
+        <option value="technology">Technology</option>
+        <option value="payments">Payments</option>
+        <option value="security">Security</option>
+      </select>
+      <input type="text" id="search" placeholder="Search posts...">
+      <button onclick="filterPosts()">Apply Filters</button>
+    </div>
+
+    <!-- Blog Posts -->
+    <div class="blog-posts" id="blog-posts">
+      <!-- Posts will be populated dynamically -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination">
+      <!-- Pagination buttons will be populated dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Sample Blog Data
+    const blogPosts = [
+      { id: 1, title: "The Future of Payments", category: "payments", date: "2023-10-01", content: "The payment industry is evolving rapidly with new technologies like blockchain and AI." },
+      { id: 2, title: "Top 5 Security Tips for Developers", category: "security", date: "2023-10-02", content: "Learn how to secure your applications with these best practices." },
+      { id: 3, title: "How AI is Transforming Fintech", category: "technology", date: "2023-10-03", content: "Artificial intelligence is revolutionizing the financial technology sector." },
+      { id: 4, title: "Understanding PCI DSS Compliance", category: "security", date: "2023-10-04", content: "A guide to understanding and implementing PCI DSS compliance." },
+      { id: 5, title: "The Rise of Contactless Payments", category: "payments", date: "2023-10-05", content: "Contactless payments are becoming the norm in a post-pandemic world." },
+      { id: 6, title: "Blockchain in Payments: Pros and Cons", category: "technology", date: "2023-10-06", content: "Exploring the benefits and challenges of blockchain in payments." },
+    ];
+
+    // Pagination Settings
+    const postsPerPage = 2;
+    let currentPage = 1;
+
+    // Function to populate blog posts
+    function populatePosts(posts, page) {
+      const blogPostsContainer = document.getElementById('blog-posts');
+      const paginationContainer = document.getElementById('pagination');
+      blogPostsContainer.innerHTML = '';
+      paginationContainer.innerHTML = '';
+
+      // Calculate pagination
+      const startIndex = (page - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      const paginatedPosts = posts.slice(startIndex, endIndex);
+
+      // Display posts
+      paginatedPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'blog-post';
+        postElement.innerHTML = `
+          <h2>${post.title}</h2>
+          <div class="meta">
+            <span>Category: ${post.category}</span>
+            <span>Date: ${post.date}</span>
+          </div>
+          <p>${post.content}</p>
+        `;
+        blogPostsContainer.appendChild(postElement);
+      });
+
+      // Display pagination buttons
+      const totalPages = Math.ceil(posts.length / postsPerPage);
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        if (i === page) {
+          button.classList.add('active');
+        }
+        button.addEventListener('click', () => {
+          currentPage = i;
+          populatePosts(posts, currentPage);
+        });
+        paginationContainer.appendChild(button);
+      }
+    }
+
+    // Function to filter posts
+    function filterPosts() {
+      const category = document.getElementById('category-filter').value;
+      const searchTerm = document.getElementById('search').value.toLowerCase();
+
+      let filteredPosts = blogPosts;
+
+      if (category !== 'all') {
+        filteredPosts = filteredPosts.filter(post => post.category === category);
+      }
+
+      if (searchTerm) {
+        filteredPosts = filteredPosts.filter(post =>
+          post.title.toLowerCase().includes(searchTerm) ||
+          post.content.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      currentPage = 1;
+      populatePosts(filteredPosts, currentPage);
+    }
+
+    // Initialize blog posts
+    populatePosts(blogPosts, currentPage);
+  </script>
+</body>
+</html>

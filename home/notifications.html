@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #22446c;
+      color: #333;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .notifications-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #7dbeef;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filters select,
+    .filters input {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .filters button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .filters button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Notifications List */
+    .notifications-list {
+      margin-top: 1.5rem;
+    }
+
+    .notification-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      background-color: #f8f9fa;
+      transition: background-color 0.3s ease;
+    }
+
+    .notification-item.unread {
+      background-color: #ffffff;
+      border-left: 4px solid #007bff;
+    }
+
+    .notification-item:hover {
+      background-color: #e9ecef;
+    }
+
+    .notification-item .content {
+      flex: 1;
+    }
+
+    .notification-item .content h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .notification-item .content p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .notification-item .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .notification-item .actions button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .notification-item .actions button.mark-read {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .notification-item .actions button.delete {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .notification-item .actions button:hover {
+      opacity: 0.9;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+      }
+
+      .filters select,
+      .filters input,
+      .filters button {
+        width: 100%;
+      }
+
+      .notification-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .notification-item .actions {
+        margin-top: 1rem;
+        width: 100%;
+      }
+
+      .notification-item .actions button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="notifications-container">
+    <h1>Notifications</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select id="filter-type">
+        <option value="all">All Notifications</option>
+        <option value="unread">Unread</option>
+        <option value="read">Read</option>
+      </select>
+      <input type="text" id="search" placeholder="Search notifications...">
+      <button onclick="filterNotifications()">Apply Filters</button>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="notifications-list" id="notifications-list">
+      <!-- Notifications will be populated dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Sample Notifications Data
+    const notifications = [
+      { id: 1, title: "New Message", message: "You have a new message from Bartwell Mwanza.", date: "2023-10-01", read: false },
+      { id: 2, title: "Payment Received", message: "Your payment of K100.00 has been received.", date: "2023-10-02", read: true },
+      { id: 3, title: "Account Update", message: "Your account details have been updated.", date: "2023-10-03", read: false },
+    ];
+
+    // Function to populate notifications
+    function populateNotifications(data) {
+      const list = document.getElementById('notifications-list');
+      list.innerHTML = ''; // Clear existing notifications
+
+      data.forEach(notification => {
+        const item = document.createElement('div');
+        item.className = `notification-item ${notification.read ? '' : 'unread'}`;
+        item.innerHTML = `
+          <div class="content">
+            <h3>${notification.title}</h3>
+            <p>${notification.message}</p>
+            <small>${notification.date}</small>
+          </div>
+          <div class="actions">
+            <button class="mark-read" onclick="markAsRead(${notification.id})">Mark as Read</button>
+            <button class="delete" onclick="deleteNotification(${notification.id})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // Function to filter notifications
+    function filterNotifications() {
+      const type = document.getElementById('filter-type').value;
+      const searchTerm = document.getElementById('search').value.toLowerCase();
+
+      let filteredData = notifications;
+
+      if (type === 'unread') {
+        filteredData = filteredData.filter(n => !n.read);
+      } else if (type === 'read') {
+        filteredData = filteredData.filter(n => n.read);
+      }
+
+      if (searchTerm) {
+        filteredData = filteredData.filter(n =>
+          n.title.toLowerCase().includes(searchTerm) ||
+          n.message.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      populateNotifications(filteredData);
+    }
+
+    // Function to mark a notification as read
+    function markAsRead(id) {
+      const notification = notifications.find(n => n.id === id);
+      if (notification) {
+        notification.read = true;
+        alert(`Notification ${id} marked as read!`);
+        filterNotifications(); // Refresh the list
+      }
+    }
+
+    // Function to delete a notification
+    function deleteNotification(id) {
+      const index = notifications.findIndex(n => n.id === id);
+      if (index !== -1) {
+        notifications.splice(index, 1);
+        alert(`Notification ${id} deleted!`);
+        filterNotifications(); // Refresh the list
+      }
+    }
+
+    // Initialize notifications list
+    populateNotifications(notifications);
+  </script>
+</body>
+</html>

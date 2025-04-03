@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Confirmation</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #054373;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .confirmation-container {
+      background: #58bde8;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .status-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .success {
+      color: #28a745;
+    }
+
+    .failed {
+      color: #dc3545;
+    }
+
+    .transaction-details {
+      text-align: left;
+      margin-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+    }
+
+    .transaction-details p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #000000;
+    }
+
+    .transaction-details strong {
+      color: #333;
+    }
+
+    .actions {
+      margin-top: 1.5rem;
+    }
+
+    .actions button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .actions button.primary {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .actions button.primary:hover {
+      background-color: #0056b3;
+    }
+
+    .actions button.secondary {
+      background-color: #f8f9fa;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .actions button.secondary:hover {
+      background-color: #e9ecef;
+    }
+
+    @media (max-width: 480px) {
+      .confirmation-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .status-icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="confirmation-container">
+    <!-- Status Icon -->
+    <div class="status-icon success">✔️</div>
+
+    <!-- Confirmation Message -->
+    <h1>Payment Successful!</h1>
+
+    <!-- Transaction Details -->
+    <div class="transaction-details">
+      <p><strong>Transaction ID:</strong> TX1001</p>
+      <p><strong>Date:</strong> 2023-10-01</p>
+      <p><strong>Amount:</strong> $150.00</p>
+      <p><strong>Description:</strong> Payment for Subscription</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="primary" onclick="goToDashboard()">Go to Dashboard</button>
+      <button class="secondary" onclick="printReceipt()">Print Receipt</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to simulate going to the dashboard
+    function goToDashboard() {
+      alert('Redirecting to Dashboard...');
+      // window.location.href = '/dashboard'; // Uncomment to redirect
+    }
+
+    // Function to simulate printing a receipt
+    function printReceipt() {
+      alert('Printing receipt...');
+      // window.print(); // Uncomment to enable actual printing
+    }
+
+    // Simulate dynamic data (e.g., from URL parameters or API)
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status') || 'success'; // Default to success
+    const transactionId = urlParams.get('id') || 'TX1001';
+    const date = urlParams.get('date') || '2023-10-01';
+    const amount = urlParams.get('amount') || '$150.00';
+    const description = urlParams.get('description') || 'Payment for Subscription';
+
+    // Update the page based on status
+    const statusIcon = document.querySelector('.status-icon');
+    const confirmationMessage = document.querySelector('h1');
+
+    if (status === 'failed') {
+      statusIcon.classList.remove('success');
+      statusIcon.classList.add('failed');
+      statusIcon.textContent = '❌';
+      confirmationMessage.textContent = 'Payment Failed!';
+    }
+
+    // Update transaction details
+    document.querySelector('.transaction-details p:nth-child(1)').innerHTML = `<strong>Transaction ID:</strong> ${transactionId}`;
+    document.querySelector('.transaction-details p:nth-child(2)').innerHTML = `<strong>Date:</strong> ${date}`;
+    document.querySelector('.transaction-details p:nth-child(3)').innerHTML = `<strong>Amount:</strong> ${amount}`;
+    document.querySelector('.transaction-details p:nth-child(4)').innerHTML = `<strong>Description:</strong> ${description}`;
+  </script>
+</body>
+</html>

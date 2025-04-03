@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Currency Support</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #142956;
+      color: #121111;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .currency-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #84c3e0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #131313;
+    }
+
+    /* Currency Converter */
+    .converter {
+      margin-bottom: 2rem;
+    }
+
+    .converter h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #0e0e0e;
+    }
+
+    .converter .input-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .converter .input-group input,
+    .converter .input-group select {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .converter .input-group input {
+      flex: 1;
+    }
+
+    .converter .input-group select {
+      width: 150px;
+    }
+
+    .converter button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .converter button:hover {
+      background-color: #0056b3;
+    }
+
+    .converter .result {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    /* Supported Currencies */
+    .supported-currencies {
+      margin-bottom: 2rem;
+    }
+
+    .supported-currencies h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .supported-currencies ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .supported-currencies ul li {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Preferred Currency Settings */
+    .preferred-currency {
+      margin-bottom: 2rem;
+    }
+
+    .preferred-currency h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .preferred-currency select {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .preferred-currency button {
+      padding: 0.75rem 1.5rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .preferred-currency button:hover {
+      background-color: #218838;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .converter .input-group {
+        flex-direction: column;
+      }
+
+      .converter .input-group select {
+        width: 100%;
+      }
+
+      .supported-currencies ul {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="currency-container">
+    <h1>Multi-Currency Support</h1>
+
+    <!-- Currency Converter -->
+    <div class="converter">
+      <h2>Currency Converter</h2>
+      <div class="input-group">
+        <input type="number" id="amount" placeholder="Enter amount" min="0">
+        <select id="from-currency">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="ZMW">ZMW</option>
+        </select>
+        <span>to</span>
+        <select id="to-currency">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="ZMW">ZMW</option>
+        </select>
+      </div>
+      <button onclick="convertCurrency()">Convert</button>
+      <div class="result" id="conversion-result"></div>
+    </div>
+
+    <!-- Supported Currencies -->
+    <div class="supported-currencies">
+      <h2>Supported Currencies</h2>
+      <ul id="currencies-list">
+        <!-- Currencies will be populated dynamically -->
+      </ul>
+    </div>
+
+    <!-- Preferred Currency Settings -->
+    <div class="preferred-currency">
+      <h2>Preferred Currency</h2>
+      <select id="preferred-currency">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="ZMW">ZMW</option>
+      </select>
+      <button onclick="setPreferredCurrency()">Save</button>
+    </div>
+  </div>
+
+  <script>
+    // Sample Currency Data
+    const currencies = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "INR", "CNY", "ZMW"];
+
+    // Sample Exchange Rates (hardcoded for demonstration)
+    const exchangeRates = {
+      USD: { EUR: 0.85, GBP: 0.73, JPY: 110.0, CAD: 1.25, AUD: 1.30, INR: 74.0, CNY: 6.45 },
+      EUR: { USD: 1.18, GBP: 0.86, JPY: 129.0, CAD: 1.47, AUD: 1.53, INR: 87.0, CNY: 7.60 },
+      GBP: { USD: 1.37, EUR: 1.16, JPY: 150.0, CAD: 1.70, AUD: 1.77, INR: 101.0, CNY: 8.80 },
+      JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0067, CAD: 0.011, AUD: 0.012, INR: 0.67, CNY: 0.058 },
+      CAD: { USD: 0.80, EUR: 0.68, GBP: 0.59, JPY: 90.0, AUD: 1.04, INR: 59.0, CNY: 5.15 },
+      AUD: { USD: 0.77, EUR: 0.65, GBP: 0.56, JPY: 83.0, CAD: 0.96, INR: 55.0, CNY: 4.95 },
+      INR: { USD: 0.014, EUR: 0.011, GBP: 0.0099, JPY: 1.49, CAD: 0.017, AUD: 0.018, CNY: 0.088 },
+      CNY: { USD: 0.15, EUR: 0.13, GBP: 0.11, JPY: 17.0, CAD: 0.19, AUD: 0.20, INR: 11.0 },
+      ZMW: { USD: 0.15, EUR: 0.13, GBP: 0.11, JPY: 17.0, CAD: 0.19, AUD: 0.20, INR: 11.0 },
+    };
+
+    // Function to populate supported currencies
+    function populateCurrencies() {
+      const list = document.getElementById('currencies-list');
+      list.innerHTML = currencies.map(currency => `<li>${currency}</li>`).join('');
+    }
+
+    // Function to convert currency
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const fromCurrency = document.getElementById('from-currency').value;
+      const toCurrency = document.getElementById('to-currency').value;
+
+      if (isNaN(amount) || amount < 0) {
+        alert('Please enter a valid amount.');
+        return;
+      }
+
+      const rate = exchangeRates[fromCurrency][toCurrency];
+      if (!rate) {
+        alert('Conversion rate not available.');
+        return;
+      }
+
+      const result = (amount * rate).toFixed(2);
+      document.getElementById('conversion-result').textContent = `${amount} ${fromCurrency} = ${result} ${toCurrency}`;
+    }
+
+    // Function to set preferred currency
+    function setPreferredCurrency() {
+      const preferredCurrency = document.getElementById('preferred-currency').value;
+      alert(`Preferred currency set to ${preferredCurrency}.`);
+      // Save preferred currency to user profile or backend
+    }
+
+    // Initialize supported currencies
+    populateCurrencies();
+  </script>
+</body>
+</html>

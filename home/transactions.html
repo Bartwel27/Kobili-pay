@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction History</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #06568c;
+      margin: 0;
+      padding: 0;
+    }
+
+    .transaction-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #81d1ec;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filters select,
+    .filters input {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .filters button {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .filters button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table th,
+    table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .export-options {
+      margin-top: 1.5rem;
+      text-align: right;
+    }
+
+    .export-options button {
+      padding: 0.5rem 1rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .export-options button:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="transaction-container">
+    <h1>Transaction History</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select id="filter-type">
+        <option value="all">All Transactions</option>
+        <option value="successful">Successful</option>
+        <option value="failed">Failed</option>
+        <option value="pending">Pending</option>
+      </select>
+      <input type="date" id="filter-date">
+      <button onclick="filterTransactions()">Apply Filters</button>
+    </div>
+
+    <!-- Transaction Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-table-body">
+        <!-- Rows will be populated dynamically -->
+      </tbody>
+    </table>
+
+    <!-- Export Options -->
+    <div class="export-options">
+      <button onclick="exportToCSV()">Export to CSV</button>
+      <button onclick="exportToPDF()">Export to PDF</button>
+    </div>
+  </div>
+
+  <script>
+    // Sample Transaction Data
+    const transactions = [
+      { id: "TX1001", date: "2023-10-01", amount: "$150.00", status: "Successful", description: "Payment for Subscription" },
+      { id: "TX1002", date: "2023-10-02", amount: "$75.50", status: "Failed", description: "Payment for Service" },
+      { id: "TX1003", date: "2023-10-03", amount: "$200.00", status: "Pending", description: "Payment for Product" },
+      { id: "TX1004", date: "2023-10-04", amount: "$50.00", status: "Successful", description: "Refund" },
+    ];
+
+    // Function to populate the table
+    function populateTable(data) {
+      const tbody = document.getElementById('transaction-table-body');
+      tbody.innerHTML = ''; // Clear existing rows
+
+      data.forEach(transaction => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${transaction.id}</td>
+          <td>${transaction.date}</td>
+          <td>${transaction.amount}</td>
+          <td><span class="status ${transaction.status.toLowerCase()}">${transaction.status}</span></td>
+          <td>${transaction.description}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Function to filter transactions
+    function filterTransactions() {
+      const type = document.getElementById('filter-type').value;
+      const date = document.getElementById('filter-date').value;
+
+      let filteredData = transactions;
+
+      if (type !== 'all') {
+        filteredData = filteredData.filter(t => t.status.toLowerCase() === type.toLowerCase());
+      }
+
+      if (date) {
+        filteredData = filteredData.filter(t => t.date === date);
+      }
+
+      populateTable(filteredData);
+    }
+
+    // Function to export to CSV
+    function exportToCSV() {
+      const rows = transactions.map(t => `${t.id},${t.date},${t.amount},${t.status},${t.description}`);
+      const csvContent = "data:text/csv;charset=utf-8," + "Transaction ID,Date,Amount,Status,Description\n" + rows.join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'transactions.csv');
+      document.body.appendChild(link);
+      link.click();
+    }
+
+    // Function to export to PDF (dummy implementation)
+    function exportToPDF() {
+      alert('PDF export functionality can be implemented using a library like jsPDF.');
+    }
+
+    // Initialize table with all transactions
+    populateTable(transactions);
+  </script>
+</body>
+</html>

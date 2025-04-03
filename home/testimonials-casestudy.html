@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials & Case Studies</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1e375b;
+      color: #333;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .testimonials-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #82b2d9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .tabs button:hover {
+      background-color: #0056b3;
+    }
+
+    .tabs button.active {
+      background-color: #0056b3;
+    }
+
+    /* Content Sections */
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .testimonial {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial .quote {
+      font-size: 1rem;
+      color: #121111;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial .author {
+      font-size: 0.9rem;
+      color: #171616;
+      text-align: right;
+    }
+
+    /* Case Studies Section */
+    .case-studies {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .case-study {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .case-study h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .case-study p {
+      font-size: 1rem;
+      color: #0f0e0e;
+      margin-bottom: 1rem;
+    }
+
+    .case-study .read-more {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .case-study .read-more:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tabs button {
+        width: 100%;
+      }
+
+      .testimonials,
+      .case-studies {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="testimonials-container">
+    <h1>Testimonials & Case Studies</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="active" data-target="testimonials">Testimonials</button>
+      <button data-target="case-studies">Case Studies</button>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div id="testimonials" class="content-section active">
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="quote">"This payment gateway has transformed our business. Highly recommended!"</div>
+          <div class="author">- John Doe, CEO of Example Corp</div>
+        </div>
+        <div class="testimonial">
+          <div class="quote">"The integration was seamless, and the support team is fantastic."</div>
+          <div class="author">- Jane Smith, CTO of Tech Solutions</div>
+        </div>
+        <div class="testimonial">
+          <div class="quote">"We’ve seen a significant increase in payment success rates since switching."</div>
+          <div class="author">- Alex Johnson, Founder of Startup Inc</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Studies Section -->
+    <div id="case-studies" class="content-section">
+      <div class="case-studies">
+        <div class="case-study">
+          <h3>Boosting Payment Success Rates</h3>
+          <p>Learn how Example Corp increased their payment success rates by 30% using our payment gateway.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="case-study">
+          <h3>Seamless Integration for Tech Solutions</h3>
+          <p>Discover how Tech Solutions integrated our payment gateway in just 3 days.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="case-study">
+          <h3>Scaling Payments for Startup Inc</h3>
+          <p>Find out how Startup Inc scaled their payment processing to handle 10x more transactions.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to handle tab switching
+    const tabs = document.querySelectorAll('.tabs button');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and sections
+        tabs.forEach(t => t.classList.remove('active'));
+        contentSections.forEach(section => section.classList.remove('active'));
+
+        // Add active class to the clicked tab and corresponding section
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

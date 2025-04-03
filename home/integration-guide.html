@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integration Guide</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #0e2b44;
+      color: #0c0b0b;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .integration-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #6cade2;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #0c0c0c;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .tabs button:hover {
+      background-color: #0056b3;
+    }
+
+    .tabs button.active {
+      background-color: #0056b3;
+    }
+
+    /* Content Sections */
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    pre {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    pre code {
+      color: #333;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tabs button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="integration-container">
+    <h1>Integration Guide</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="active" data-target="web">Web Integration</button>
+      <button data-target="mobile">Mobile Integration</button>
+      <button data-target="api">API Documentation</button>
+    </div>
+
+    <!-- Web Integration Section -->
+    <div id="web" class="content-section active">
+      <h2>Web Integration</h2>
+      <p>Follow these steps to integrate the payment gateway into your website:</p>
+      <ol>
+        <li>Include the payment gateway script in your HTML file:</li>
+        <pre><code>&lt;script src="https://paymentgateway.com/integration.js"&gt;&lt;/script&gt;</code></pre>
+        <li>Initialize the payment gateway with your API key:</li>
+        <pre><code>const gateway = new PaymentGateway('YOUR_API_KEY');</code></pre>
+        <li>Create a payment form and handle the payment response:</li>
+        <pre><code>gateway.createPayment({
+  amount: 100.00,
+  currency: 'USD',
+  onSuccess: (response) => {
+    console.log('Payment successful:', response);
+  },
+  onFailure: (error) => {
+    console.error('Payment failed:', error);
+  }
+});</code></pre>
+      </ol>
+    </div>
+
+    <!-- Mobile Integration Section -->
+    <div id="mobile" class="content-section">
+      <h2>Mobile Integration</h2>
+      <p>Follow these steps to integrate the payment gateway into your mobile app:</p>
+      <ol>
+        <li>Add the payment gateway SDK to your project:</li>
+        <pre><code>// For Android (Gradle)
+implementation 'com.paymentgateway:sdk:1.0.0'
+
+// For iOS (CocoaPods)
+pod 'PaymentGatewaySDK', '~> 1.0.0'</code></pre>
+        <li>Initialize the SDK with your API key:</li>
+        <pre><code>// Android
+PaymentGateway.initialize("YOUR_API_KEY");
+
+// iOS
+PaymentGateway.initialize(withApiKey: "YOUR_API_KEY")</code></pre>
+        <li>Create a payment request and handle the response:</li>
+        <pre><code>// Android
+PaymentGateway.createPayment(100.00, "USD", new PaymentCallback() {
+  @Override
+  public void onSuccess(PaymentResponse response) {
+    System.out.println("Payment successful: " + response);
+  }
+
+  @Override
+  public void onFailure(PaymentError error) {
+    System.err.println("Payment failed: " + error);
+  }
+});
+
+// iOS
+PaymentGateway.createPayment(amount: 100.00, currency: "USD", onSuccess: { response in
+  print("Payment successful: \(response)")
+}, onFailure: { error in
+  print("Payment failed: \(error)")
+})</code></pre>
+      </ol>
+    </div>
+
+    <!-- API Documentation Section -->
+    <div id="api" class="content-section">
+      <h2>API Documentation</h2>
+      <p>Use the following API endpoints to integrate the payment gateway into your backend:</p>
+      <ul>
+        <li><strong>Create Payment:</strong> <code>POST /v1/payments</code></li>
+        <li><strong>Get Payment Details:</strong> <code>GET /v1/payments/{payment_id}</code></li>
+        <li><strong>Refund Payment:</strong> <code>POST /v1/payments/{payment_id}/refund</code></li>
+      </ul>
+      <p>Example request to create a payment:</p>
+      <pre><code>POST /v1/payments
+{
+  "amount": 100.00,
+  "currency": "USD",
+  "description": "Payment for order #123"
+}</code></pre>
+      <p>Example response:</p>
+      <pre><code>{
+  "id": "pay_123",
+  "amount": 100.00,
+  "currency": "USD",
+  "status": "success"
+}</code></pre>
+    </div>
+  </div>
+
+  <script>
+    // Function to handle tab switching
+    const tabs = document.querySelectorAll('.tabs button');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and sections
+        tabs.forEach(t => t.classList.remove('active'));
+        contentSections.forEach(section => section.classList.remove('active'));
+
+        // Add active class to the clicked tab and corresponding section
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

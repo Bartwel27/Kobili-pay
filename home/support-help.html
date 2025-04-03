@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support & Help Center</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #073f74;
+      margin: 0;
+      padding: 0;
+    }
+
+    .support-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #60a9f1;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .search-bar button {
+      padding: 0.75rem 1.5rem;
+      background-color: #033d7a;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    .faq-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-section h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .faq-item {
+      margin-bottom: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background-color: #f8f9fa;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background-color: #e9ecef;
+    }
+
+    .faq-question h3 {
+      font-size: 1rem;
+      color: #333;
+      margin: 0;
+    }
+
+    .faq-question span {
+      font-size: 1.2rem;
+      color: #222222;
+    }
+
+    .faq-answer {
+      padding: 0.75rem;
+      background-color: #ffffff;
+      display: none;
+    }
+
+    .faq-answer p {
+      margin: 0;
+      color: #1f1e1e;
+      font-size: 0.9rem;
+    }
+
+    .contact-form {
+      margin-top: 1.5rem;
+    }
+
+    .contact-form h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 0.9rem;
+      color: #171515;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #033264;
+      outline: none;
+    }
+
+    .contact-form button {
+      padding: 0.75rem 1.5rem;
+      background-color: #074a91;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .search-bar input {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .search-bar button {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="support-container">
+    <h1>Support & Help Center</h1>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search for help...">
+      <button onclick="searchFAQ()">Search</button>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(this)">
+          <h3>How do I reset my password?</h3>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>To reset your password, go to the 'Change Password' section in your profile and follow the instructions.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(this)">
+          <h3>How do I enable two-factor authentication?</h3>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>You can enable two-factor authentication in the 'Security' section of your profile.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(this)">
+          <h3>How do I contact support?</h3>
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>You can contact support by filling out the form below or emailing us at support@example.com.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2>Contact Us</h2>
+      <form id="contact-form">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <label for="message">Message</label>
+        <textarea id="message" rows="4" placeholder="Enter your message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Function to toggle FAQ answers
+    function toggleAnswer(question) {
+      const answer = question.nextElementSibling;
+      if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        question.querySelector('span').textContent = '▼';
+      } else {
+        answer.style.display = 'block';
+        question.querySelector('span').textContent = '▲';
+      }
+    }
+
+    // Function to search FAQs
+    function searchFAQ() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Function to handle contact form submission
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Your message has been sent!');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

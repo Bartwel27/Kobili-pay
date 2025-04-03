@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Sandbox</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1e3f54;
+      color: #333;
+      padding: 2rem;
+    }
+
+    /* Container */
+    .sandbox-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #7892b9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* API Tester */
+    .api-tester {
+      margin-bottom: 2rem;
+    }
+
+    .api-tester h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .api-tester label {
+      display: block;
+      font-size: 0.9rem;
+      color: #0a0a0a;
+      margin-bottom: 0.5rem;
+    }
+
+    .api-tester select,
+    .api-tester input,
+    .api-tester textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .api-tester select:focus,
+    .api-tester input:focus,
+    .api-tester textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .api-tester button {
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .api-tester button:hover {
+      background-color: #0056b3;
+    }
+
+    .api-tester .response {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+
+    .api-tester .response pre {
+      margin: 0;
+      color: #333;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .sandbox-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sandbox-container">
+    <h1>Developer Sandbox</h1>
+
+    <!-- API Tester -->
+    <div class="api-tester">
+      <h2>API Tester</h2>
+      <label for="api-endpoint">API Endpoint</label>
+      <select id="api-endpoint">
+        <option value="/v1/payments">Create Payment</option>
+        <option value="/v1/payments/{id}">Get Payment Details</option>
+        <option value="/v1/payments/{id}/refund">Refund Payment</option>
+      </select>
+
+      <label for="request-body">Request Body</label>
+      <textarea id="request-body" rows="5" placeholder="Enter JSON request body"></textarea>
+
+      <button onclick="sendRequest()">Send Request</button>
+
+      <div class="response">
+        <h3>Response</h3>
+        <pre id="api-response">Response will appear here...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to simulate API requests
+    function sendRequest() {
+      const endpoint = document.getElementById('api-endpoint').value;
+      const requestBody = document.getElementById('request-body').value;
+      const responseElement = document.getElementById('api-response');
+
+      // Simulate API response (hardcoded for demonstration)
+      let response;
+      try {
+        const requestData = JSON.parse(requestBody || '{}');
+        switch (endpoint) {
+          case '/v1/payments':
+            response = {
+              id: "pay_123",
+              amount: requestData.amount || 100.00,
+              currency: requestData.currency || "USD",
+              status: "success"
+            };
+            break;
+          case '/v1/payments/{id}':
+            response = {
+              id: "pay_123",
+              amount: 100.00,
+              currency: "USD",
+              status: "success",
+              created_at: "2023-10-01T12:00:00Z"
+            };
+            break;
+          case '/v1/payments/{id}/refund':
+            response = {
+              id: "ref_456",
+              payment_id: "pay_123",
+              amount: requestData.amount || 100.00,
+              status: "refunded"
+            };
+            break;
+          default:
+            response = { error: "Invalid endpoint" };
+        }
+      } catch (e) {
+        response = { error: "Invalid JSON request body" };
+      }
+
+      // Display the response
+      responseElement.textContent = JSON.stringify(response, null, 2);
+    }
+  </script>
+</body>
+</html>
